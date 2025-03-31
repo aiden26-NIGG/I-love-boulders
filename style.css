@@ -10,6 +10,31 @@ body {
   font-family: Arial, sans-serif;
 }
 
+#instructions {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  text-align: center;
+}
+
+#instructions h1 {
+  color: #ff9900;
+  margin-bottom: 20px;
+}
+
+.instructions-content {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.start-instruction {
+  color: #ff9900;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
 .game-container {
   position: relative;
   width: 800px;
@@ -61,7 +86,7 @@ body {
 
 #upgrades {
   position: absolute;
-  top: 50px; /* Moved to the top */
+  top: 50px;
   left: 10px;
   display: flex;
   gap: 10px;

@@ -1,3 +1,15 @@
+// Show instructions first
+const instructions = document.getElementById('instructions');
+const gameContainer = document.querySelector('.game-container');
+
+// Start game on any key press
+document.addEventListener('keydown', function() {
+  instructions.style.display = 'none';
+  gameContainer.style.display = 'block';
+  startGame();
+}, { once: true }); // Only trigger once
+
+// Rest of your existing game code...
 const player = document.getElementById('player');
 const bouldersContainer = document.getElementById('boulders');
 const wallsContainer = document.getElementById('walls');
@@ -10,16 +22,16 @@ const buyWallButton = document.getElementById('buy-wall');
 let score = 0;
 let lives = 3;
 let isShieldActive = false;
-let boulderSpeed = 4; // Initial speed of boulders
-let spawnRate = 1000; // Initial spawn rate of boulders (in milliseconds)
+let boulderSpeed = 4;
+let spawnRate = 1000;
 let gameInterval;
 let boulderInterval;
 let waveCount = 0;
 let isWaveActive = false;
 
-// Player position (bottom center)
-const playerX = 400; // Half of game container width
-const playerY = 560; // Near the bottom
+// Player position
+const playerX = 400;
+const playerY = 560;
 player.style.left = `${playerX}px`;
 player.style.top = `${playerY}px`;
 
@@ -38,22 +50,22 @@ document.addEventListener('keydown', (e) => {
 
 // Create boulders (big or small)
 function createBoulder() {
-  const isBigBoulder = Math.random() < 0.3; // 30% chance of big boulder
+  const isBigBoulder = Math.random() < 0.3;
   const boulder = document.createElement('div');
   boulder.classList.add('boulder');
-  boulder.textContent = isBigBoulder ? '🪨' : '🪨'; // Use the same emoji for now
-  boulder.style.fontSize = isBigBoulder ? '60px' : '40px'; // Big boulders are larger
-  boulder.style.left = `${Math.random() * 760}px`; // Random horizontal position
-  boulder.style.top = `-40px`; // Start above the screen
+  boulder.textContent = isBigBoulder ? '🪨' : '🪨';
+  boulder.style.fontSize = isBigBoulder ? '60px' : '40px';
+  boulder.style.left = `${Math.random() * 760}px`;
+  boulder.style.top = `-40px`;
   bouldersContainer.appendChild(boulder);
 
-  const speed = isBigBoulder ? boulderSpeed - 1 : boulderSpeed + 1; // Big boulders are slower
-  const points = isBigBoulder ? 20 : 10; // Big boulders give more points
-  const damage = isBigBoulder ? 2 : 1; // Big boulders take more lives
+  const speed = isBigBoulder ? boulderSpeed - 1 : boulderSpeed + 1;
+  const points = isBigBoulder ? 20 : 10;
+  const damage = isBigBoulder ? 2 : 1;
 
   const moveBoulder = setInterval(() => {
     const boulderY = parseFloat(boulder.style.top);
-    boulder.style.top = `${boulderY + speed}px`; // Move boulder downward
+    boulder.style.top = `${boulderY + speed}px`;
 
     // Check for collision with player
     const boulderRect = boulder.getBoundingClientRect();
@@ -67,7 +79,7 @@ function createBoulder() {
       clearInterval(moveBoulder);
       boulder.remove();
       if (!isShieldActive) {
-        loseLife(damage); // Pass damage amount to loseLife
+        loseLife(damage);
       }
     }
 
@@ -82,17 +94,16 @@ function createBoulder() {
       ) {
         clearInterval(moveBoulder);
         boulder.remove();
-        damageWall(wall, isBigBoulder ? 20 : 10); // Big boulders do more damage
+        damageWall(wall, isBigBoulder ? 20 : 10);
       }
     });
 
-    // Remove boulder if it goes off screen
     if (boulderY > 600) {
       clearInterval(moveBoulder);
       boulder.remove();
-      score += points; // Add points based on boulder size
+      score += points;
       scoreElement.textContent = `Score: ${score}`;
-      increaseDifficulty(); // Increase difficulty as score increases
+      increaseDifficulty();
     }
   }, 20);
 }
@@ -105,7 +116,7 @@ function damageWall(wall, damage) {
   wall.textContent = `HP: ${hp}`;
 
   if (hp <= 0) {
-    wall.remove(); // Remove wall if HP drops to 0
+    wall.remove();
   }
 }
 
@@ -123,11 +134,9 @@ function createWallAtTop() {
   const wall = document.createElement('div');
   wall.classList.add('wall');
   wall.textContent = 'HP: 100';
-  wall.dataset.hp = 100; // Set initial HP
-
-  // Position the wall at the top of the screen
-  wall.style.left = `${Math.random() * 740}px`; // Random horizontal position
-  wall.style.top = `10px`; // Fixed vertical position at the top
+  wall.dataset.hp = 100;
+  wall.style.left = `${Math.random() * 740}px`;
+  wall.style.top = `10px`;
   wallsContainer.appendChild(wall);
 }
 
@@ -135,31 +144,27 @@ function createWallAtTop() {
 function startWave() {
   isWaveActive = true;
   waveCount++;
-  console.log(`Wave ${waveCount} started!`);
-  boulderInterval = setInterval(createBoulder, spawnRate); // Spawn boulders
+  boulderInterval = setInterval(createBoulder, spawnRate);
 
-  // End the wave after 30 seconds
   setTimeout(() => {
     clearInterval(boulderInterval);
     isWaveActive = false;
-    console.log(`Wave ${waveCount} ended!`);
-    startBreak(); // Start a break after the wave
-  }, 30000); // Wave lasts for 30 seconds
+    startBreak();
+  }, 30000);
 }
 
 // Start a 10-second break between waves
 function startBreak() {
-  console.log("10-second break started!");
   setTimeout(() => {
-    startWave(); // Start the next wave after the break
-  }, 10000); // Break lasts for 10 seconds
+    startWave();
+  }, 10000);
 }
 
 // Increase difficulty as score increases
 function increaseDifficulty() {
   if (score % 50 === 0) {
-    boulderSpeed += 1; // Increase boulder speed
-    spawnRate = Math.max(500, spawnRate - 100); // Decrease spawn rate (minimum 500ms)
+    boulderSpeed += 1;
+    spawnRate = Math.max(500, spawnRate - 100);
   }
 }
 
@@ -184,14 +189,14 @@ shieldButton.addEventListener('click', () => {
 
 // Activate shield
 function activateShield() {
-  if (isShieldActive) return; // Prevent multiple shields
+  if (isShieldActive) return;
   isShieldActive = true;
-  player.style.backgroundColor = 'rgba(0, 255, 0, 0.5)'; // Visual indicator
+  player.style.backgroundColor = 'rgba(0, 255, 0, 0.5)';
 
   setTimeout(() => {
     isShieldActive = false;
-    player.style.backgroundColor = ''; // Remove visual indicator
-  }, 5000); // Shield lasts for 5 seconds
+    player.style.backgroundColor = '';
+  }, 5000);
 }
 
 // Update score
@@ -199,7 +204,7 @@ function updateScore() {
   scoreElement.textContent = `Score: ${score}`;
 }
 
-// Lose a life (or multiple lives for big boulders)
+// Lose a life
 function loseLife(damage = 1) {
   lives -= damage;
   livesElement.textContent = `Lives: ${lives}`;
@@ -229,14 +234,11 @@ function resetGame() {
   isShieldActive = false;
   scoreElement.textContent = `Score: ${score}`;
   livesElement.textContent = `Lives: ${lives}`;
-  player.style.backgroundColor = ''; // Reset shield visual
-  startGame();
+  player.style.backgroundColor = '';
 }
 
 // Start game
 function startGame() {
   gameInterval = setInterval(updateScore, 1000);
-  startWave(); // Start the first wave
+  startWave();
 }
-
-startGame();

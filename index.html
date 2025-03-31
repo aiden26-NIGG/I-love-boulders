@@ -7,7 +7,35 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="game-container">
+  <div id="instructions">
+    <h1>How to Play</h1>
+    <div class="instructions-content">
+      <h2>How It Works</h2>
+      <p><strong>Buy a Wall:</strong></p>
+      <ul>
+        <li>Click the "Buy Wall" button (cost: 200 points).</li>
+        <li>A wall will spawn at a random position at the top of the screen.</li>
+      </ul>
+      <p><strong>Walls:</strong></p>
+      <ul>
+        <li>Walls block boulders and take damage when hit.</li>
+        <li>Walls are removed when their HP drops to 0.</li>
+      </ul>
+      <p><strong>Boulders:</strong></p>
+      <ul>
+        <li>Big boulders deal 2 lives of damage to the player and 20 damage to walls.</li>
+        <li>Small boulders deal 1 life of damage to the player and 10 damage to walls.</li>
+      </ul>
+      <p><strong>Upgrades:</strong></p>
+      <ul>
+        <li>Extra Life: Buy an extra life for 100 points.</li>
+        <li>Shield: Activate a shield for 5 seconds for 50 points.</li>
+        <li>Wall: Buy a wall for 200 points.</li>
+      </ul>
+      <p class="start-instruction">Press any key to start the game!</p>
+    </div>
+  </div>
+  <div class="game-container" style="display: none;">
     <div id="player">🏃‍♂️</div>
     <div id="boulders"></div>
     <div id="walls"></div>
